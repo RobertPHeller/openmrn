@@ -86,10 +86,9 @@ extern const char* g_death_file;
  */
 #define HASSERT(x) do { if (!(x)) { RECORD_DEATH(); abort(); } } while(0)
 
-
 #define DIE(MSG) abort()
 
-#elif defined(ESP32)
+#elif defined(ESP32) || defined(ESP_PLATFORM)
 
 #include <stdio.h>
 #include <assert.h>
@@ -239,7 +238,7 @@ extern const char* g_death_file;
 /// };
 #define GET_PARENT_PTR(ParentClass, variable)                                  \
     reinterpret_cast<ParentClass *>(                                           \
-        reinterpret_cast<char *>(this) - offsetof(ParentClass, variable));
+        reinterpret_cast<char *>(this) - offsetof(ParentClass, variable))
 
 
 /// Helper macro for printing a node ID on printf that does not support %llx.

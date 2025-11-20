@@ -70,6 +70,17 @@ endif
 endif
 endif #TIVAWAREPATH
 
+################ TI MSPM0 SDK ##################
+ifndef TIMSPM0SDKPATH
+SEARCHPATH := \
+  /opt/ti/mspm0sdk/default
+
+TRYPATH:=$(call findfirst,source/ti/devices/msp/msp.h,$(SEARCHPATH))
+ifneq ($(TRYPATH),)
+TIMSPM0SDKPATH:=$(TRYPATH)
+endif
+endif #TIMSPM0SDKPATH
+
 ################ STM32Cube_F0 ##################
 ifndef STM32CUBEF0PATH
 SEARCHPATH := \
@@ -135,6 +146,18 @@ ifneq ($(TRYPATH),)
 STM32CUBEF7PATH:=$(TRYPATH)
 endif
 endif #STM32CUBEF7PATH
+
+################ STM32Cube_G0 ##################
+ifndef STM32CUBEG0PATH
+SEARCHPATH := \
+  /opt/st/STM32Cube_FW_G0/default \
+  $(HOME)/STM32Cube/Repository/STM32Cube_FW_G0_V1.6.1
+
+TRYPATH:=$(call findfirst,Drivers,$(SEARCHPATH))
+ifneq ($(TRYPATH),)
+STM32CUBEG0PATH:=$(TRYPATH)
+endif
+endif #STM32CUBEG0PATH
 
 ################ lpcopen_18xx_43xx ##################
 ifndef LPCOPENPATH_18XX_43XX
@@ -410,9 +433,38 @@ endif
 endif #CMSIS_LPC11_PATH
 
 
+############### GTEST ###################
+ifndef GTESTPATH
+SEARCHPATH := \
+  /opt/gtest/default \
+  /opt/gtest/default/googletest \
+  /opt/gtest/gtest \
+  /opt/gtest/googletest \
+  $(abspath $(OPENMRNPATH)/../googletest/googletest) \
+
+
+TRYPATH:=$(call findfirst,include/gtest/gtest.h,$(SEARCHPATH))
+ifneq ($(TRYPATH),)
+GTESTPATH:=$(TRYPATH)
+endif
+endif #GTESTPATH
+
+ifndef GTESTSRCPATH
+SEARCHPATH := \
+  $(GTESTPATH) \
+
+TRYPATH:=$(call findfirst,src/gtest-all.cc,$(SEARCHPATH))
+ifneq ($(TRYPATH),)
+GTESTSRCPATH:=$(TRYPATH)
+endif
+endif #GTESTSRCPATH
+
 ############### GMOCK ###################
 ifndef GMOCKPATH
 SEARCHPATH := \
+  $(GTESTPATH)/googlemock \
+  $(GTESTPATH)/../googlemock \
+  /opt/gtest/default/googlemock \
   /opt/gmock/default \
   /usr \
 
@@ -433,35 +485,6 @@ ifneq ($(TRYPATH),)
 GMOCKSRCPATH:=$(TRYPATH)
 endif
 endif #GMOCKSRCPATH
-
-
-############### GTEST ###################
-ifndef GTESTPATH
-SEARCHPATH := \
-  $(GMOCKPATH)/gtest \
-  /opt/gmock/default/gtest \
-  /opt/gtest/gtest \
-  /opt/gtest/default \
-  /usr \
-
-TRYPATH:=$(call findfirst,include/gtest/gtest.h,$(SEARCHPATH))
-ifneq ($(TRYPATH),)
-GTESTPATH:=$(TRYPATH)
-endif
-endif #GTESTPATH
-
-ifndef GTESTSRCPATH
-SEARCHPATH := \
-  $(GTESTPATH) \
-  /opt/gmock/default/gtest \
-  /usr/src/gtest \
-  /opt/gtest/default \
-
-TRYPATH:=$(call findfirst,src/gtest-all.cc,$(SEARCHPATH))
-ifneq ($(TRYPATH),)
-GTESTSRCPATH:=$(TRYPATH)
-endif
-endif #GTESTSRCPATH
 
 ################### MIPS-ELF-GCC #####################
 ifndef MIPSGCCPATH

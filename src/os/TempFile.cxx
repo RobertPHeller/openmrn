@@ -41,7 +41,13 @@
 #define _DARWIN_C_SOURCE // mkdtemp
 #endif
 
+#if defined(ESP_NONOS)
+#define __sh__ // for ftruncate
+#endif
+
 #include "os/TempFile.hxx"
+
+#include <unistd.h>
 
 /// @todo mingw does not seem to have an mkdtemp call.
 #if !defined(__FreeRTOS__) && !defined(__WINNT__)
@@ -52,7 +58,7 @@ TempDir::TempDir()
 #else
     dirName_ = "./openmrntmpdirXXXXXX";
 #endif
-    dirName_.c_str();
+    (void)dirName_.c_str();
     HASSERT(mkdtemp(&dirName_[0]));
 }
 #endif
@@ -63,7 +69,7 @@ TempDir::TempDir()
 TempFile::TempFile(const TempDir& dir, const string& basename)
 {
     fileName_ = dir.name() + "/" + basename + ".XXXXXX";
-    fileName_.c_str();
+    (void)fileName_.c_str();
     fd_ = mkstemp((char*)fileName_.c_str());
 }
 
