@@ -28,6 +28,7 @@ set(SRCS
     ${OPENMRNPATH}/src/freertos_drivers/esp32/Esp32HardwareTwai.cxx
     ${OPENMRNPATH}/src/freertos_drivers/esp32/Esp32Ledc.cxx
     ${OPENMRNPATH}/src/freertos_drivers/esp32/Esp32SocInfo.cxx
+    ${OPENMRNPATH}/src/freertos_drivers/esp32/Esp32WiFiManager.cxx
     ${OPENMRNPATH}/src/freertos_drivers/esp_idf/EspIdfWiFi.cxx
     ${OPENMRNPATH}/src/freertos_drivers/common/WifiDefs.cxx
 
