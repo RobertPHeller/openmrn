@@ -75,6 +75,9 @@ static const wifi_scan_config_t SCAN_CONFIG =
         .ghz_2_channels = 0,
         .ghz_5_channels = 0,
     },
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5,4,2)
+    .coex_background_scan = false,
+#endif
 };
 
 //
